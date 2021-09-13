@@ -1,0 +1,26 @@
+{
+  "type": [
+    "null",
+    "array"
+  ],
+  "items": {
+    "type": [
+      "null",
+      "object"
+    ],
+    "properties": {
+      "action_type": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "value": {
+        "type": [
+          "null",
+          "integer"
+        ]
+      }
+    }
+  }
+}

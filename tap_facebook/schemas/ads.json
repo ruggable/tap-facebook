@@ -149,7 +149,12 @@
         "string"
       ]
     },
-    "targeting": {"$ref": "targeting.json"},
+    "targeting": {
+      "$ref": "targeting.json"
+    },
+    "targetingsentencelines": {
+      "$ref": "targetingsentencelines.json"
+    },
     "effective_status": {
       "type": [
         "null",

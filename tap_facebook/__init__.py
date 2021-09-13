@@ -291,6 +291,7 @@ class Ads(IncrementalStream):
         This is necessary because the functions that call this endpoint return
         a generator, whose calls need decorated with a backoff.
         """
+        params.update({'filtering': [{'field': 'ad.impressions', 'operator' : 'GREATER_THAN', 'value' : '0'}]})
         return self.account.get_ads(fields=self.automatic_fields(), params=params) # pylint: disable=no-member
 
     def __iter__(self):
@@ -335,6 +336,7 @@ class AdSets(IncrementalStream):
         This is necessary because the functions that call this endpoint return
         a generator, whose calls need decorated with a backoff.
         """
+        params.update({'filtering': [{'field': 'ad.impressions', 'operator' : 'GREATER_THAN', 'value' : '0'}]})
         return self.account.get_ad_sets(fields=self.automatic_fields(), params=params) # pylint: disable=no-member
 
     def __iter__(self):
@@ -376,6 +378,7 @@ class Campaigns(IncrementalStream):
         This is necessary because the functions that call this endpoint return
         a generator, whose calls need decorated with a backoff.
         """
+        params.update({'filtering': [{'field': 'ad.impressions', 'operator' : 'GREATER_THAN', 'value' : '0'}]})
         return self.account.get_campaigns(fields=self.automatic_fields(), params=params) # pylint: disable=no-member
 
     def __iter__(self):
@@ -568,7 +571,7 @@ class AdsInsights(Stream):
 
     # these fields are not defined in the facebook_business library
     # Sending these fields is not allowed, but they are returned by the api
-    invalid_insights_fields = ['impression_device', 'publisher_platform', 'platform_position',
+    invalid_insights_fields = ['impression_device', 'publisher_platform', 'platform_position', 'device_platform',
                                'age', 'gender', 'country', 'placement', 'region', 'dma', 'hourly_stats_aggregated_by_advertiser_time_zone']
     FACEBOOK_INSIGHTS_RETENTION_PERIOD = 37 # months
 
@@ -688,9 +691,9 @@ INSIGHTS_BREAKDOWNS_OPTIONS = {
     'ads_insights_country': {"breakdowns": ['country'],
                              "primary-keys": ['country']},
     'ads_insights_platform_and_device': {"breakdowns": ['publisher_platform',
-                                                        'platform_position', 'impression_device'],
+                                                        'platform_position', 'impression_device','device_platform'],
                                          "primary-keys": ['publisher_platform',
-                                                          'platform_position', 'impression_device']},
+                                                          'platform_position', 'impression_device','device_platform']},
     'ads_insights_region': {'breakdowns': ['region'],
                             'primary-keys': ['region']},
     'ads_insights_dma': {"breakdowns": ['dma'],
