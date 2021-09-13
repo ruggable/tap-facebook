@@ -76,7 +76,7 @@ You can provide JSON file that contains a date for the streams to force the appl
 
 ### Run the Tap w Ruggable configs
 
-Currently, we've got 4 properties files split out for testing:
+Currently, we've got 4 properties files split out for testing. Each hits a different endpoint. These will be consolidated in the final version:
 
 `tap-facebook -c config.json -p fb_properties_metrics.json -s state.json`
 
