@@ -78,11 +78,11 @@ You can provide JSON file that contains a date for the streams to force the appl
 
 Currently, we've got 4 properties files split out for testing. Each hits a different endpoint. These will be consolidated in the final version:
 
-`tap-facebook -c config.json -p fb_properties_metrics.json -s state.json`
+`tap-facebook -c config.json -p fb_properties_metrics.json -s state.json`> metrics_output.json
 
-`tap-facebook -c config.json -p fb_properties_campaign.json -s state.json`
+`tap-facebook -c config.json -p fb_properties_campaign.json -s state.json`> campaign_output.json
 
-`tap-facebook -c config.json -p fb_properties_audience.json -s state.json`
+`tap-facebook -c config.json -p fb_properties_audience.json -s state.json`> audience_output.json
 
-`tap-facebook -c config.json -p fb_properties_creative.json -s state.json`
+`tap-facebook -c config.json -p fb_properties_creative.json -s state.json`> creative_output.json
 
