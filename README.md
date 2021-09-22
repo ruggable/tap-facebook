@@ -78,12 +78,12 @@ You can provide JSON file that contains a date for the streams to force the appl
 
 Output to local json:
 
-`tap-facebook -c config.json -p fb_properties_metrics.json -s state.json > output.json`
+`tap-facebook -c config_uk.json -p fb_properties.json -s state_uk.json > output_uk.json`
 
 Manual way to output to redshift using target-redshift:
 
 `(singer_taps\Scripts\tap-facebook -c config_uk.json -p fb_properties.json -s state_uk.json) | (singer_targets\Scripts\target-redshift -c target_redshift_config_uk.json)`
 
-That's pretty verbose, so next steps will be to throw a python wrapper over it so we can execute like so:
+Note that the config.json, state.json, & target_redshift_config.json each vary with the account. The command gets pretty verbose, so next steps will be to throw a python wrapper over it so we can execute like so:
 
 `python tap-facebook-app.py --account=uk`
