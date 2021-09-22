@@ -86,4 +86,4 @@ Manual way to output to redshift using target-redshift:
 
 Note that the config.json, state.json, & target_redshift_config.json each vary with the account. Since we're pulling the same data, fb_properties.json stays the same across all accounts. Five extra sets of config options will also be crafted for the campaign-level "fb_campaigns" tables in the DW (code currently feeds ad-level "fb_master" tables). The above command is fairly verbose, so next steps will be to throw a python wrapper over it so we can execute like so:
 
-`python tap-facebook-app.py --account=uk`
+`python tap-facebook-app.py --account uk`
