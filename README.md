@@ -76,13 +76,14 @@ You can provide JSON file that contains a date for the streams to force the appl
 
 ### Run the Tap w Ruggable configs
 
-Currently, we've got 4 properties files split out for testing. Each hits a different endpoint. These will be consolidated in the final version:
+Output to local json:
 
-`tap-facebook -c config.json -p fb_properties_metrics.json -s state.json > metrics_output.json`
+`tap-facebook -c config.json -p fb_properties_metrics.json -s state.json > output.json`
 
-`tap-facebook -c config.json -p fb_properties_campaign.json -s state.json > campaign_output.json`
+Manual way to output to redshift using target-redshift:
 
-`tap-facebook -c config.json -p fb_properties_audience.json -s state.json > audience_output.json`
+`(singer_taps\Scripts\tap-facebook -c config_uk.json -p fb_properties.json -s state_uk.json) | (singer_targets\Scripts\target-redshift -c target_redshift_config_uk.json)`
 
-`tap-facebook -c config.json -p fb_properties_creative.json -s state.json > creative_output.json`
+That's pretty verbose, so next steps will be to throw a python wrapper over it so we can execute like so:
 
+`python tap-facebook-app.py --account=uk`
