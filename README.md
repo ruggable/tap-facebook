@@ -254,11 +254,6 @@ When it comes to adding custom fields, it is recommended to use [Singer Tools](h
 
 * Versioning: for now, we're doing versioning manually, as singer's config.json doesn't naturally pass api_version information. The file to be changed is: `~/singer_taps/lib/site-packages/facebook_business/apiconfig.py` Just changed the version to whatever we're using. Version format example: "v12.0"
 
-* S3 bucket names: in order to upload to s3 bucket that contains dashes (e.g. "ruggable-data-warehouse"), we need to change `~/singer_taps/lib/site-packages/botocore/handlers.py` line 57 from:
-`VALID_BUCKET = re.compile(r'^[a-zA-Z0-9.\-_]{1,255}$')`
-to
-`VALID_BUCKET = re.compile(r'^[a-zA-Z0-9.-_-]{1,255}$')`
-
 * Filtering for fewer days pulled on runtime: to do this, we change `~/singer_taps/lib/site-packages/tap-facebook/init.py` line 588 - change "buffer_days" from 28 to 8 - the reason for this is that post iOS14, FB no longer supports 28 day attribution, so tap_facebook would be running 28 days worth of data every time, even though the historical data stops changing after 8 days. speeds up each run considerably
 
 * Filtering by ads with "Impressions > 0": to do this, we changed `~\singer_taps\lib\site-packages\tap_facebook\__init__.py`, and inserted this line in 3 key spots:  
@@ -266,6 +261,11 @@ to
     - insert after: line 294 (_call_get_ads)
     - insert after: line 339 (_call_get_ad_sets)
     - insert after: line 381 (_call_get_campaigns)
+
+* S3 bucket names: in order to upload to s3 bucket that contains dashes (e.g. "ruggable-data-warehouse"), we need to change `~/singer_taps/lib/site-packages/botocore/handlers.py` line 57 from:
+`VALID_BUCKET = re.compile(r'^[a-zA-Z0-9.\-_]{1,255}$')`
+to
+`VALID_BUCKET = re.compile(r'^[a-zA-Z0-9.-_-]{1,255}$')`
 
 ### Target Patches
 * Patch "Permission Error" (file in use): to do this, we changed `~\singer_targets\lib\site-packages\target_redshift\__init__.py`, and for now just commenting out line 427  `os.remove(csv_file)`. Next steps will be closing this file with logic similar to 
