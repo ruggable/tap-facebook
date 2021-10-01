@@ -18,9 +18,7 @@ This tap:
 - Outputs the schema for each resource
 - Incrementally pulls data based on the input state
 
-## Quick start
-
-### Install
+## Install Singer Tap
 
 We recommend using a virtualenv:
 
@@ -74,7 +72,98 @@ You can provide JSON file that contains a date for the streams to force the appl
 
 `tap-facebook -c config.json -p properties.json -s state.json`
 
-### Run the Tap w Ruggable configs
+## Install Singer Target - Using Facebook Tap with a Redshift Target
+
+To target Redshift, we've chosen the [PipelineWise](https://transferwise.github.io/pipelinewise) connector, a  [Singer](https://www.singer.io/) target that loads data into Amazon Redshift following the [Singer spec](https://github.com/singer-io/getting-started/blob/master/docs/SPEC.md).
+
+### To install
+
+#### Create the target environment
+
+`virtualenv target_env_name`
+
+#### Activate the tap environment
+
+'target_env_name\Scripts\activate'
+
+You will have confirmation that this worked because the environment name will be in parentheses at beginning of next command line
+
+#### Set up the target environment
+
+* Install singer
+
+`pip install singer-python`
+
+* Install redshift target
+
+`pip install pipelinewise-target-redshift`
+
+### To run
+
+Like any other target that's following the singer specificiation:
+
+`some-singer-tap | target-redshift --config [config.json]`
+
+It's reading incoming messages from STDIN and using the properites in `config.json` to upload data into Amazon Redshift.
+
+**Note**: To avoid version conflicts run `tap` and `targets` in separate virtual environments.
+
+### Configuration settings
+
+Running the the target connector requires a `config.json` file. Example with the minimal settings:
+
+   ```json
+   {
+
+     "host": "xxxxxx.redshift.amazonaws.com",
+     "port": 5439,
+     "user": "my_user",
+     "password": "password",
+     "dbname": "database_name",
+     "aws_access_key_id": "secret",
+     "aws_secret_access_key": "secret",
+     "s3_bucket": "bucket_name",
+     "default_target_schema": "my_target_schema"
+   }
+   ```
+
+Full list of options in `config.json`:
+
+| Property                            | Type    | Required?  | Description                                                   |
+|-------------------------------------|---------|------------|---------------------------------------------------------------|
+| host                                | String  | Yes        | Redshift Host                                                 |
+| port                                | Integer | Yes        | Redshift Port                                                 |
+| user                                | String  | Yes        | Redshift User                                                 |
+| password                            | String  | Yes        | Redshift Password                                             |
+| dbname                              | String  | Yes        | Redshift Database name                                        |
+| aws_profile                         | String  | No         | AWS profile name for profile based authentication. If not provided, `AWS_PROFILE` environment variable will be used. |
+| aws_access_key_id                   | String  | No         | S3 Access Key Id. Used for S3 and Redshfit copy operations. If not provided, `AWS_ACCESS_KEY_ID` environment variable will be used. |
+| aws_secret_access_key               | String  | No         | S3 Secret Access Key. Used for S3 and Redshfit copy operations. If not provided, `AWS_SECRET_ACCESS_KEY` environment variable will be used.  |
+| aws_session_token                   | String  | No         | S3 AWS STS token for temporary credentials. If not provided, `AWS_SESSION_TOKEN` environment variable will be used. |
+| aws_redshift_copy_role_arn          | String  | No         | AWS Role ARN to be used for the Redshift COPY operation. Used instead of the given AWS keys for the COPY operation if provided - the keys are still used for other S3 operations |
+| s3_acl                              | String  | No         | S3 Object ACL                                                |
+| s3_bucket                           | String  | Yes        | S3 Bucket name                                                |
+| s3_key_prefix                       | String  |            | (Default: None) A static prefix before the generated S3 key names. Using prefixes you can upload files into specific directories in the S3 bucket. |
+| copy_options                        | String  |            | (Default: `EMPTYASNULL BLANKSASNULL TRIMBLANKS TRUNCATECOLUMNS TIMEFORMAT 'auto' COMPUPDATE OFF STATUPDATE OFF`). Parameters to use in the COPY command when loading data to Redshift. Some basic file formatting parameters are fixed values and not recommended overriding them by custom values. They are like: `CSV GZIP DELIMITER ',' REMOVEQUOTES ESCAPE` |
+| batch_size_rows                     | Integer |            | (Default: 100000) Maximum number of rows in each batch. At the end of each batch, the rows in the batch are loaded into Redshift. |
+| flush_all_streams                   | Boolean |            | (Default: False) Flush and load every stream into Redshift when one batch is full. Warning: This may trigger the COPY command to use files with low number of records, and may cause performance problems. |
+| parallelism                         | Integer |            | (Default: 0) The number of threads used to flush tables. 0 will create a thread for each stream, up to parallelism_max. -1 will create a thread for each CPU core. Any other positive number will create that number of threads, up to parallelism_max. |
+| max_parallelism                     | Integer |            | (Default: 16) Max number of parallel threads to use when flushing tables. |
+| default_target_schema               | String  |            | Name of the schema where the tables will be created. If `schema_mapping` is not defined then every stream sent by the tap is loaded into this schema.    |
+| default_target_schema_select_permissions | String  |            | Grant USAGE privilege on newly created schemas and grant SELECT privilege on newly created tables to a specific list of users or groups. Example: `{"users": ["user_1","user_2"], "groups": ["group_1", "group_2"]}` If `schema_mapping` is not defined then every stream sent by the tap is granted accordingly.   |
+| schema_mapping                      | Object  |            | Useful if you want to load multiple streams from one tap to multiple Redshift schemas.<br><br>If the tap sends the `stream_id` in `<schema_name>-<table_name>` format then this option overwrites the `default_target_schema` value. Note, that using `schema_mapping` you can overwrite the `default_target_schema_select_permissions` value to grant SELECT permissions to different groups per schemas or optionally you can create indices automatically for the replicated tables.<br><br> **Note**: This is an experimental feature and recommended to use via PipelineWise YAML files that will generate the object mapping in the right JSON format. For further info check a [PipelineWise YAML Example]
+| disable_table_cache                 | Boolean |            | (Default: False) By default the connector caches the available table structures in Redshift at startup. In this way it doesn't need to run additional queries when ingesting data to check if altering the target tables is required. With `disable_table_cache` option you can turn off this caching. You will always see the most recent table structures but will cause an extra query runtime. |
+| add_metadata_columns                | Boolean |            | (Default: False) Metadata columns add extra row level information about data ingestions, (i.e. when was the row read in source, when was inserted or deleted in redshift etc.) Metadata columns are creating automatically by adding extra columns to the tables with a column prefix `_SDC_`. The metadata columns are documented at https://transferwise.github.io/pipelinewise/data_structure/sdc-columns.html. Enabling metadata columns will flag the deleted rows by setting the `_SDC_DELETED_AT` metadata column. Without the `add_metadata_columns` option the deleted rows from singer taps will not be recongisable in Redshift. |
+| hard_delete                         | Boolean |            | (Default: False) When `hard_delete` option is true then DELETE SQL commands will be performed in Redshift to delete rows in tables. It's achieved by continuously checking the  `_SDC_DELETED_AT` metadata column sent by the singer tap. Due to deleting rows requires metadata columns, `hard_delete` option automatically enables the `add_metadata_columns` option as well. |
+| data_flattening_max_level           | Integer |            | (Default: 0) Object type RECORD items from taps can be loaded into VARIANT columns as JSON (default) or we can flatten the schema by creating columns automatically.<br><br>When value is 0 (default) then flattening functionality is turned off. |
+| primary_key_required                | Boolean |            | (Default: True) Log based and Incremental replications on tables with no Primary Key cause duplicates when merging UPDATE events. When set to true, stop loading data if no Primary Key is defined. |
+| validate_records                    | Boolean |            | (Default: False) Validate every single record message to the corresponding JSON schema. This option is disabled by default and invalid RECORD messages will fail only at load time by Snowflake. Enabling this option will detect invalid records earlier but could cause performance degradation. |
+| skip_updates                        | Boolean |    No      | (Default: False) Do not update existing records when Primary Key is defined. Useful to improve performance when records are immutable, e.g. events
+| compression                         | String  |    No        | The compression method to use when writing files to S3 and running Redshift `COPY`. The currently supported methods are `gzip` or `bzip2`. Defaults to none (`""`). |
+| slices                              | Integer |    No      | The number of slices to split files into prior to running COPY on Redshift. This should be set to the number of Redshift slices. The number of slices per node depends on the node size of the cluster - run `SELECT COUNT(DISTINCT slice) slices FROM stv_slices` to calculate this. Defaults to `1`. |
+| temp_dir                            | String  |            | (Default: platform-dependent) Directory of temporary CSV files with RECORD messages. |
+
+## Tap-And-Target: Running the Tap w Ruggable configs
 
 Output to local json:
 
@@ -87,3 +176,31 @@ Manual way to output to redshift using target-redshift:
 Note that the config.json, state.json, & target_redshift_config.json each vary with the account. Since we're pulling the same data, fb_properties.json stays the same across all accounts. Five extra sets of config options will also be crafted for the campaign-level "fb_campaigns" tables in the DW (code currently feeds ad-level "fb_master" tables). The above command is fairly verbose, so next steps will be to throw a python wrapper over it so we can execute like so:
 
 `python tap-facebook-app.py --account uk`
+
+## Adding Custom Fields
+
+When it comes to adding custom fields, it is recommended to use [Singer Tools](https://github.com/singer-io/singer-tools) for a first pass at automated JSON schema discovery. Once singer tools is installed (in a separate venv), we can run this command: `singer-infer-schema < data.json > schema.json`. The resulting `schema.json` may need a few tweaks, but it's a good starting point. It should be noted that both properties.json as well as the relevant json schema in the schemas folder (e.g. `~\singer_taps\Lib\site-packages\tap_facebook\schemas`) must be updated appropriately for the changes to sync.
+
+## Known issues & patches
+
+### Tap Patches
+
+* Versioning: for now, we're doing versioning manually, as singer's config.json doesn't naturally pass api_version information. The file to be changed is: `~/singer_taps/lib/site-packages/facebook_business/apiconfig.py` Just changed the version to whatever we're using. Version format example: "v12.0"
+
+* S3 bucket names: in order to upload to s3 bucket that contains dashes (e.g. "ruggable-data-warehouse"), we need to change `~/singer_taps/lib/site-packages/botocore/handlers.py` line 57 from:
+`VALID_BUCKET = re.compile(r'^[a-zA-Z0-9.\-_]{1,255}$')`
+to
+`VALID_BUCKET = re.compile(r'^[a-zA-Z0-9.-_-]{1,255}$')`
+
+* Filtering for fewer days pulled on runtime: to do this, we change `~/singer_taps/lib/site-packages/tap-facebook/init.py` line 588 - change "buffer_days" from 28 to 8 - the reason for this is that post iOS14, FB no longer supports 28 day attribution, so tap_facebook would be running 28 days worth of data every time, even though the historical data stops changing after 8 days. speeds up each run considerably
+
+* Filtering by ads with "Impressions > 0": to do this, we changed `~\singer_taps\lib\site-packages\tap_facebook\__init__.py`, and inserted this line in 3 key spots:  
+        `params.update({'filtering': [{'field': 'ad.impressions', 'operator' : 'GREATER_THAN', 'value' : '0'})`
+    - insert after: line 294 (_call_get_ads)
+    - insert after: line 339 (_call_get_ad_sets)
+    - insert after: line 381 (_call_get_campaigns)
+
+### Target Patches
+* Patch "Permission Error" (file in use): to do this, we changed `~\singer_targets\lib\site-packages\target_redshift\__init__.py`, and for now just commenting out line 427  `os.remove(csv_file)`. Next steps will be closing this file with logic similar to 
+  ```with open_method(csv_file, "w+b") as csv_f:
+         csv_f.close()       ```
