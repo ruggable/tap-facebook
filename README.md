@@ -183,7 +183,7 @@ Note that the config.json, state.json, & target_redshift_pipelinewise_config.jso
 
 ### Config Examples
 
-The `fb_properties.json` is a huge json file that contains all the streams, selects which endpoints to sync, and must match the json schemas in the json folder. See the repo for an example. 
+The `fb_properties.json` is a huge json file that contains all the streams, selects which endpoints to sync, and must match the json schemas in the schemas folder. See the repo for an example. 
 
 Examples of the other config files: 
 #### config.json (tap)
