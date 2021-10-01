@@ -84,7 +84,7 @@ To target Redshift, we've chosen the [PipelineWise](https://transferwise.github.
 
 #### Activate the tap environment
 
-'target_env_name\Scripts\activate'
+`target_env_name\Scripts\activate`
 
 You will have confirmation that this worked because the environment name will be in parentheses at beginning of next command line
 
@@ -202,5 +202,7 @@ to
 
 ### Target Patches
 * Patch "Permission Error" (file in use): to do this, we changed `~\singer_targets\lib\site-packages\target_redshift\__init__.py`, and for now just commenting out line 427  `os.remove(csv_file)`. Next steps will be closing this file with logic similar to 
-  ```with open_method(csv_file, "w+b") as csv_f:
-         csv_f.close()       ```
+  ```
+  with open_method(csv_file, "w+b") as csv_f:
+         csv_f.close()       
+  ```
