@@ -177,7 +177,7 @@ Output to redshift using target-redshift:
 
 ### In development
 
-Note that the config.json, state.json, & target_redshift_pipelinewise_config.json each vary with the account. Since we're pulling the same data, fb_properties.json stays the same across all accounts. Five extra sets of config options will also be crafted for the campaign-level "fb_campaigns" tables in the DW (code currently feeds ad-level "fb_master" tables). The above command is fairly verbose, so next steps will be to throw a python wrapper over it so we can execute like so:
+Note that the config.json, state.json, & target_redshift_pipelinewise_config.json each vary with the account. Since we're pulling the same data, fb_properties.json stays the same across all accounts. For each account, extra sets of config options will also be crafted for the campaign-level "fb_campaigns" tables in the DW (code currently feeds ad-level "fb_master" tables). The above command is fairly verbose, so next steps will be to throw a python wrapper over it so we can execute like so:
 
 `python tap-facebook-app.py --account uk`
 
