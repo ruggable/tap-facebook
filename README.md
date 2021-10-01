@@ -171,11 +171,72 @@ Output to local json:
 
 Manual way to output to redshift using target-redshift:
 
-`(singer_taps\Scripts\tap-facebook -c config_uk.json -p fb_properties.json -s state_uk.json) | (singer_targets\Scripts\target-redshift -c target_redshift_config_uk.json)`
+`(singer_taps\Scripts\tap-facebook -c config.json -p fb_properties.json -s state.json) | (singer_targets_pipelinewise\Scripts\target-redshift -c target_redshift_pipelinewise_config.json)`
 
-Note that the config.json, state.json, & target_redshift_config.json each vary with the account. Since we're pulling the same data, fb_properties.json stays the same across all accounts. Five extra sets of config options will also be crafted for the campaign-level "fb_campaigns" tables in the DW (code currently feeds ad-level "fb_master" tables). The above command is fairly verbose, so next steps will be to throw a python wrapper over it so we can execute like so:
+Note that the config.json, state.json, & target_redshift_pipelinewise_config.json each vary with the account. Since we're pulling the same data, fb_properties.json stays the same across all accounts. Five extra sets of config options will also be crafted for the campaign-level "fb_campaigns" tables in the DW (code currently feeds ad-level "fb_master" tables). The above command is fairly verbose, so next steps will be to throw a python wrapper over it so we can execute like so:
 
 `python tap-facebook-app.py --account uk`
+
+The `fb_properties.json` is a huge json file that contains all the streams, selects which endpoints to sync, and must match the json schemas in the json folder. See the repo for an example. 
+
+Examples of the other config files: 
+#### config.json (tap)
+  ```
+{
+	"start_date" : "2021-09-28",
+	"account_id" : "999999999999999",
+	"access_token" : "XYZ123",
+	"API_VERSION": "v12.0",
+	"SDK_VERSION": "v12.0.0",
+ 	"STRICT_MODE": "False",
+	"include_deleted" : "False",
+	"result_return_limit" : "100"
+}  
+  ```
+
+#### state.json (tap)
+  ```
+{
+  "bookmarks": {
+    "adcreative": {
+      "date_start": "2021-09-29T00:00:00Z"
+    },
+    "ads_insights": {
+      "date_start": "2021-09-29T00:00:00Z"
+    },
+    "ads_insights_platform_and_device": {
+      "date_start": "2021-09-29T00:00:00Z"
+    },
+    "campaigns": {
+      "updated_time": "2021-09-29T00:00:00Z"
+    },
+    "adsets": {
+      "updated_time": "2021-09-29T00:00:00Z"
+    },
+    "ads": {
+      "updated_time": "2021-09-29T00:00:00Z"
+    }
+  }
+}      
+  ```
+
+#### target_redshift_pipelinewise_config.json (target)
+  ```
+{
+  "host": "host-example.XYZ123.redshift.amazonaws.com",
+  "port": 5439,
+  "dbname": "ruggable",
+  "user": "your-user-name",
+  "password": "your-password",
+  "default_target_schema": "tap_facebook_us",
+  "data_flattening_max_level": 8,
+  "aws_access_key_id": "XYZ123",
+  "aws_secret_access_key": "XYZ123",
+  "s3_bucket": "your-bucket-name",
+  "s3_key_prefix": "subfolder/subfolder/facebook/__tmp__",
+  "temp_dir" : "c:/downloads/"
+}  
+  ```
 
 ## Adding Custom Fields
 
