@@ -262,7 +262,7 @@ When it comes to adding custom fields, it is recommended to use [Singer Tools](h
     - insert after: line 339 (_call_get_ad_sets)
     - insert after: line 381 (_call_get_campaigns)
 
-* Adding "device platform" as a breakdown. To do this, we changed `~\singer_taps\lib\site-packages\tap_facebook\__init__.py`, and added "device platform" to lines 574, 694, and 696.
+* Adding "device platform" as a breakdown. To do this, we changed `~\singer_taps\lib\site-packages\tap_facebook\__init__.py`, and added "device_platform" to lines 574, 694, and 696.
 
 * S3 bucket names: in order to upload to an s3 bucket that contains dashes (e.g. "ruggable-data-warehouse"), we need to change `~/singer_taps/lib/site-packages/botocore/handlers.py` line 57 from:
 `VALID_BUCKET = re.compile(r'^[a-zA-Z0-9.\-_]{1,255}$')`
