@@ -237,6 +237,8 @@ Examples of the other config files:
   "default_target_schema": "tap_facebook_us",
   "data_flattening_max_level": 8,
   "add_metadata_columns": true,
+  "compression": "gzip",
+  "slices": 6,
   "aws_access_key_id": "XYZ123",
   "aws_secret_access_key": "XYZ123",
   "s3_bucket": "your-bucket-name",
