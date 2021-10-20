@@ -1,0 +1,355 @@
+{
+  "type": [
+    "null",
+    "object"
+  ],
+  "properties": {
+    "actions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Action"
+      }
+    },
+    "adset_name": {
+      "type": "string"
+    },
+    "adset_id": {
+      "type": "string"
+    },
+    "objective": {
+      "type": "string"
+    },
+    "action_values": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ActionValue"
+      }
+    },
+    "date_stop": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "campaign_id": {
+      "type": "string"
+    },
+    "ad_id": {
+      "type": "string"
+    },
+    "campaign_name": {
+      "type": "string"
+    },
+    "date_start": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "ad_name": {
+      "type": "string"
+    },
+    "account_id": {
+      "type": "string"
+    },
+    "publisher_platform": {
+      "type": "string"
+    },
+    "platform_position": {
+      "type": "string"
+    },
+    "impression_device": {
+      "type": "string"
+    },
+    "device_platform": {
+      "type": "string"
+    },
+    "frequency": {
+      "type": "number"
+    },
+    "reach": {
+      "type": "integer"
+    },
+    "video_p50_watched_actions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Action"
+      }
+    },
+    "video_p100_watched_actions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Action"
+      }
+    },
+    "video_avg_time_watched_actions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/VideoAvgTimeWatchedAction"
+      }
+    },
+    "unique_actions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Action"
+      }
+    },
+    "unique_outbound_clicks": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/UniqueOutboundClick"
+      }
+    },
+    "impressions": {
+      "type": "integer"
+    },
+    "spend": {
+      "type": "number"
+    }
+  },
+  "items": {
+    "$ref": "#/definitions/WelcomeElement"
+  },
+  "definitions": {
+    "WelcomeElement": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "account_id": {
+          "type": "string"
+        },
+        "campaign_id": {
+          "type": "string"
+        },
+        "campaign_name": {
+          "type": "string"
+        },
+        "adset_id": {
+          "type": "string"
+        },
+        "adset_name": {
+          "type": "string"
+        },
+        "ad_name": {
+          "type": "string"
+        },
+        "ad_id": {
+          "type": "string"
+        },
+        "objective": {
+          "type": "string"
+        },
+        "spend": {
+          "type": "number"
+        },
+        "impressions": {
+          "type": "integer"
+        },
+        "reach": {
+          "type": "integer"
+        },
+        "frequency": {
+          "type": "number"
+        },
+        "publisher_platform": {
+          "type": "string"
+        },
+        "platform_position": {
+          "type": "string"
+        },
+        "impression_device": {
+          "type": "string"
+        },
+        "device_platform": {
+          "type": "string"
+        },
+        "date_start": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "date_stop": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "actions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Action"
+          }
+        },
+        "action_values": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ActionValue"
+          }
+        },
+        "video_p50_watched_actions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Action"
+          }
+        },
+        "video_p100_watched_actions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Action"
+          }
+        },
+        "video_avg_time_watched_actions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/VideoAvgTimeWatchedAction"
+          }
+        },
+        "unique_actions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Action"
+          }
+        },
+        "unique_outbound_clicks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/UniqueOutboundClick"
+          }
+        }
+      },
+      "title": "WelcomeElement"
+    },
+    "Action": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "action_destination": {
+          "$ref": "#/definitions/ActionDestinationEnum"
+        },
+        "action_target_id": {
+          "type": "string"
+        },
+        "action_type": {
+          "$ref": "#/definitions/ActionType"
+        },
+        "value": {
+          "type": "number"
+        },
+        "7d_click": {
+          "type": "number"
+        },
+        "1d_view": {
+          "type": "number"
+        },
+        "7d_view": {
+          "type": "number"
+        },
+        "28d_view": {
+          "type": "number"
+        },
+        "1d_click": {
+          "type": "number"
+        },
+        "28d_click": {
+          "type": "number"
+        }
+      },
+      "title": "Action"
+    },
+    "ActionValue": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "action_destination": {
+          "type": "string"
+        },
+        "action_target_id": {
+          "type": "string"
+        },
+        "action_type": {
+          "type": "string"
+        },
+        "value": {
+          "type": "number"
+        },
+        "7d_click": {
+          "type": "number"
+        },
+        "1d_view": {
+          "type": "number"
+        },
+        "7d_view": {
+          "type": "number"
+        },
+        "28d_view": {
+          "type": "number"
+        },
+        "1d_click": {
+          "type": "number"
+        },
+        "28d_click": {
+          "type": "number"
+        }
+      },
+      "title": "ActionValue"
+    },
+    "UniqueOutboundClick": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "action_destination": {
+          "$ref": "#/definitions/ActionDestinationEnum"
+        },
+        "action_target_id": {
+          "$ref": "#/definitions/ActionDestinationEnum"
+        },
+        "action_type": {
+          "type": "string"
+        },
+        "value": {
+          "type": "integer"
+        },
+        "1d_click": {
+          "type": "integer"
+        },
+        "7d_click": {
+          "type": "integer"
+        },
+        "28d_click": {
+          "type": "integer"
+        }
+      },
+      "title": "UniqueOutboundClick"
+    },
+    "VideoAvgTimeWatchedAction": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "action_type": {
+          "$ref": "#/definitions/ActionType"
+        },
+        "value": {
+          "type": "integer"
+        }
+      },
+      "title": "VideoAvgTimeWatchedAction"
+    },
+    "ActionType": {
+      "type": "string",
+      "title": "ActionType",
+      "enum": [
+        "offsite_conversion.fb_pixel_view_content",
+        "offsite_conversion.fb_pixel_add_to_wishlist",
+        "offsite_conversion.fb_pixel_add_to_cart",
+        "offsite_conversion.fb_pixel_purchase",
+        "offsite_conversion.fb_pixel_lead",
+        "offsite_conversion.fb_pixel_search",
+        "offsite_conversion.fb_pixel_initiate_checkout",
+        "video_view",
+        "post",
+        "link_click",
+        "post_reaction",
+        "onsite_conversion.post_save",
+        "page_engagement",
+        "post_engagement"
+      ]
+    },
+    "ActionDestinationEnum": {
+      "type": "string",
+      "title": "ActionDestinationEnum"
+    }
+  }
+}

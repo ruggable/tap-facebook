@@ -1,0 +1,206 @@
+{
+  "type": [
+    "null",
+    "object"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "account_id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "adset_id": {
+      "type": "string"
+    },
+    "targeting": {
+      "$ref": "#/definitions/Targeting"
+    },
+    "updated_time": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "format": "date-time"
+    },
+    "created_time": {
+      "type": [
+        "null",
+        "string"
+      ],
+      "format": "date-time"
+    },
+    "creative": {
+      "$ref": "#/definitions/Creative"
+    },
+    "campaign_id": {
+      "type": "string"
+    },
+    "bid_amount": {
+      "type": "integer"
+    }
+  },
+  "items": {
+    "$ref": "#/definitions/WelcomeElement"
+  },
+  "definitions": {
+    "WelcomeElement": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "account_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "adset_id": {
+          "type": "string"
+        },
+        "targeting": {
+          "$ref": "#/definitions/Targeting"
+        },
+        "updated_time": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "format": "date-time"
+        },
+        "created_time": {
+          "type": [
+            "null",
+            "string"
+          ],
+          "format": "date-time"
+        },
+        "creative": {
+          "$ref": "#/definitions/Creative"
+        },
+        "campaign_id": {
+          "type": "string"
+        },
+        "bid_amount": {
+          "type": "integer"
+        }
+      },
+      "title": "WelcomeElement"
+    },
+    "Creative": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      },
+      "title": "Creative"
+    },
+    "Targeting": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "age_max": {
+          "type": "integer"
+        },
+        "age_min": {
+          "type": "integer"
+        },
+        "custom_audiences": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CustomAudience"
+          }
+        },
+        "geo_locations": {
+          "$ref": "#/definitions/GeoLocations"
+        },
+        "targeting_optimization": {
+          "$ref": "#/definitions/TargetingOptimization"
+        },
+        "excluded_custom_audiences": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CustomAudience"
+          }
+        },
+        "flexible_spec": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FlexibleSpec"
+          }
+        },
+        "genders": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        }
+      },
+      "title": "Targeting"
+    },
+    "CustomAudience": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "title": "CustomAudience"
+    },
+    "FlexibleSpec": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "interests": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CustomAudience"
+          }
+        }
+      },
+      "title": "FlexibleSpec"
+    },
+    "GeoLocations": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "countries": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Country"
+          }
+        },
+        "location_types": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LocationType"
+          }
+        }
+      },
+      "title": "GeoLocations"
+    },
+    "Country": {
+      "type": "string",
+      "title": "Country"
+    },
+    "LocationType": {
+      "type": "string",
+      "title": "LocationType"
+    },
+    "TargetingOptimization": {
+      "type": "string",
+      "title": "TargetingOptimization"
+    }
+  }
+}
