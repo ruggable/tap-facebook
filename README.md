@@ -174,9 +174,13 @@ Output to local json:
 Output to redshift using target-redshift:
 
 `(singer_taps\Scripts\tap-facebook -c config_uk.json -p fb_properties.json -s state_uk.json) | (singer_targets_pipelinewise\Scripts\target-redshift -c target_config_uk.json)`
+
 `(singer_taps\Scripts\tap-facebook -c config_ca.json -p fb_properties.json -s state_ca.json) | (singer_targets_pipelinewise\Scripts\target-redshift -c target_config_ca.json)`
+
 `(singer_taps\Scripts\tap-facebook -c config_influencer.json -p fb_properties.json -s state_influencer.json) | (singer_targets_pipelinewise\Scripts\target-redshift -c target_config_influencer.json)`
+
 `(singer_taps\Scripts\tap-facebook -c config_us.json -p fb_properties.json -s state_us.json) | (singer_targets_pipelinewise\Scripts\target-redshift -c target_config_us.json)`
+
 `(singer_taps\Scripts\tap-facebook -c config_influencer.json -p fb_properties.json -s state_influencer.json) | (singer_targets_pipelinewise\Scripts\target-redshift -c target_config_influencer.json)`
 
 ### In development
