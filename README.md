@@ -257,7 +257,7 @@ Examples of the other config files:
 
 ## Adding Custom Fields
 
-When it comes to adding custom fields, it is recommended to use [Singer Tools](https://github.com/singer-io/singer-tools) for a first pass at automated JSON schema discovery. Once singer tools is installed (in a separate venv), we can run this command: `singer-infer-schema < data.json > schema.json`. The resulting `schema.json` may need a few tweaks, but it's a good starting point. It should be noted that both properties.json as well as the relevant json schema in the schemas folder (e.g. `~\singer_taps\Lib\site-packages\tap_facebook\schemas`) must be updated appropriately for the changes to sync.
+When it comes to adding custom fields, it is recommended to use [Singer Tools](https://github.com/singer-io/singer-tools) for a first pass at automated JSON schema discovery. Once singer tools is installed (in a separate venv), we can run this command: `singer-infer-schema < data.json > schema.json`. The resulting `schema.json` may need a few tweaks, but it's a good starting point. It should be noted that both properties.json as well as the relevant json schema in the schemas folder (e.g. `~\singer_taps\Lib\site-packages\tap_facebook\schemas`) must be updated appropriately for the changes to sync. For more info, see relevant [Confluence Docs](https://ruggabletech.atlassian.net/wiki/spaces/MDP/pages/1477115905/Singer+-+building+custom+JSON+Schemas).
 
 ## Known issues & patches
 
